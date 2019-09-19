@@ -63,6 +63,17 @@ change directory to the 2016-ABAPlus root and enter:
 
     mv <download folder>/dlv.i386-apple-darwin.bin dlv
     chmod a+x dlv
+	
+## Windows 10
+
+Get clingo from 
+https://sourceforge.net/projects/potassco/files/clingo/4.5.4/clingo-4.5.4-win64.zip/download
+
+Add clingo directory to environment variables (PATH).
+
+DLV (http://www.dlvsystem.com/files/dlv.mingw.exe) is already in the repository, 
+but if different version is needed, download it and rename the executable to `dlv`.
+
 
 Build
 =====
@@ -79,6 +90,8 @@ either add `<clingo root>/build/release` to the PATH in your shell startup scrip
 To run the unit tests, in a terminal change to the directory `<ABAPlus root>` and enter:
 
     python3 -m unittest
+	
+(Use `python` e.g. if on Win and Python 3 is the only/default version.)
 
 The unit tests should print a bunch of dots and a message like "Ran 47 tests in 0.113s".
 If not, then there could be something wrong with your installation.

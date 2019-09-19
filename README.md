@@ -10,5 +10,6 @@ Web app works with
 
 stable.py (together with auxil.py) is a separate module for computing <-stable extensions of flat ABA+ frameworks. 
 (Needs neither Django nor DLV.)
-> python stable.py
+
+    python stable.py
 
