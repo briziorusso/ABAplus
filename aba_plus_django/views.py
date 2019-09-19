@@ -14,7 +14,7 @@ limitations under the License."""
 
 from django.views import generic
 from django.http import HttpResponseRedirect
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 import json
 
 from abap_parser import *
