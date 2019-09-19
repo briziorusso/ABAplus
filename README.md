@@ -9,5 +9,6 @@ Web app works with
 * DLV 2012-12-17 http://www.dlvsystem.com/dlv/
 
 stable.py (together with auxil.py) is a separate module for computing <-stable extensions of flat ABA+ frameworks. 
->> python stable.py
-(Needs neither Django nor DLV)
+(Needs neither Django nor DLV.)
+> python stable.py
+
