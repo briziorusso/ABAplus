@@ -67,11 +67,13 @@ limitations under the License.-->
 							<header>
 								<h1>Assumption-Based Argumentation with Preferences. </h1>
 								<p>
-								    This website (www-abaplus.doc.ic.ac.uk) 
-								    carries the interface of <b>ABAplus</b>, a system that implements reasoning with the computational argumentation formalism ABA&#8314;
-									    <a href="http://www.aaai.org/ocs/index.php/KR/KR16/paper/view/12877/12519">
-									    (K. &#x10c;yras, F. Toni &#8211; ABA&#8314;: Assumption-Based Argumentation with Preferences</a>,  
-									<em>The 15th International Conference on Principles of Knowledge Representation and Reasoning</em> (KR 2016)).
+								    This website (<a href="http://www-abaplus.doc.ic.ac.uk/">www-abaplus.doc.ic.ac.uk</a>) 
+								    carries the interface of <b>ABAplus</b>
+									(<a href="https://link.springer.com/chapter/10.1007%2F978-3-319-69131-2_25">
+									Z. Bao, K. &#x10c;yras, F. Toni &#8211; ABAplus: Attack Reversal in Abstract and Structured Argumentation with Preferences</a>),
+									a system that implements reasoning with the computational argumentation formalism ABA&#8314;
+									(<a href="http://www.aaai.org/ocs/index.php/KR/KR16/paper/view/12877/12519">
+									K. &#x10c;yras, F. Toni &#8211; ABA&#8314;: Assumption-Based Argumentation with Preferences</a>).
 									ABA&#8314; is a novel approach to handling preferences in structured argumentation.
 									It extends the well established structured argumentation formalism Assumption-Based Argumentation (ABA) 
 								     with a binary preference relation over assumptions.
@@ -85,7 +87,7 @@ limitations under the License.-->
 							    In ABAplus, an ABA&#8314; framework is specified as follows: 
 								    <li> <b>myAsm(a).</b> specifies that <b>a</b> is an assumption; </li>
 									<li> <b>contrary(a</b>, <b>x).</b> specifies that <b>x</b> is the contrary of assumption <b>a</b>; </li>
-							        <li> <b>myRule(h</b>, <b>[b<sub>1</sub></b>,…,<b>b<sub>n</sub>]).</b> specifies that <b>h <- b<sub>1</sub></b>,…,<b>b<sub>n</sub></b> is a rule;</li>									
+							        <li> <b>myRule(h</b>, <b>[b<sub>1</sub></b>, …, <b>b<sub>n</sub>]).</b> specifies that <b>h <- b<sub>1</sub></b>, …, <b>b<sub>n</sub></b> is a rule;</li>
 									<li> <b>myPrefLT(b</b>, <b> a).</b> specifies that assumption <b>a</b> is strictly preferred over assumption <b>b</b>; </li>
 									<li> <b>myPrefLE(b</b>, <b> a).</b> specifies that assumption <b>a</b> is strictly or equally preferred over assumption <b>b</b>.</li>
 								</ul>
@@ -93,7 +95,7 @@ limitations under the License.-->
 							</header>
 
                             <br/><br/>
-							Either choose a file (with extension .pl) contaning the specification of an ABA&#8314; framework and <b>UPLOAD</b> <br/><br/>
+							Either choose a file (with extension .pl) containing the specification of an ABA&#8314; framework and <b>UPLOAD</b> <br/><br/>
 
 							<form method="post" enctype="multipart/form-data">
 								{% csrf_token %}
@@ -115,10 +117,10 @@ limitations under the License.-->
                             	
                             <p>
                                 For more information about ABA&#8314; and/or to report any issues with/bugs of the system please contact
-									<a href="http://www.doc.ic.ac.uk/~kc2813/"> Kristijonas &#x10c;yras (k.cyras13@ic.ac.uk)</a> 
+									<a href="http://www.doc.ic.ac.uk/~kc2813/"> Kristijonas &#x10c;yras (k.cyras@imperial.ac.uk)</a> 
 								or 
-									<a href="http://www.doc.ic.ac.uk/~ft/"> Francesca Toni (ft@ic.ac.uk)</a>. 
-								The implementation has been carried out by Ziyi Bao (ziyi.bao14@ic.ac.uk), 
+									<a href="http://www.doc.ic.ac.uk/~ft/"> Francesca Toni (ft@imperial.ac.uk)</a>. 
+								The implementation has been carried out by Ziyi Bao (ziyi.bao14@imperial.ac.uk), 
 								under the Undergraduate Research Opportunities Programme (UROP, http://www.imperial.ac.uk/urop), 
 								supervised by K. &#x10c;yras and F. Toni.
 							</p>

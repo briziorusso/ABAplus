@@ -19,8 +19,8 @@ limitations under the License.-->
     <title>WCP not satisfied</title>
 </head>
 <body>
-    The ABA&#8314; framework given the input does not satisfy the Axiom of Weak Contraposition (WCP). <br>
-    Choose to enforce WCP automatically in order to add extra rules to the framework so as to satisfy WCP. <br/>
+    The given ABA&#8314; framework does not satisfy the Axiom of Weak Contraposition (WCP). <br>
+    Choose to automatically enforce WCP by adding extra rules to the framework. <br/>
     <form method="post" action="{% url 'aba_plus_django:results' %}">
         {% csrf_token %}
         <input type="submit" name="auto_WCP" value="Enforce WCP" />

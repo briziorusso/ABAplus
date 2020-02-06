@@ -239,56 +239,50 @@ class ABA_Plus:
         """
         :return: True if WCP is satisfied for the framework, False otherwise
         """
-        assumps = []
-        attackers_sets = []
-        attackers = []
+        assumption_accumulator = []
         for assump in self.assumptions:
+            attacker_set_accumulator = []
             attacker_sets = self.generate_arguments(assump.contrary())
             for attacker_set in attacker_sets:
+                attacker_accumulator = []
                 culprit_list = [ c for c in set(attacker_set) if self.is_preferred(assump, c)]	
                 # get a list of "culprits" -- assumptions in attacker_set that are < assump
                 culprits = set(culprit_list) 							                        
-                # put the culprit list into a set
                 minimal_culprits = self.set_of_minimal_elements(culprits) 			            
                 # get the set of <-minimal culprits
                 for attacker in minimal_culprits: 						                        
                 # for every <-minimal culprit
                     if self._WCP_fulfilled(attacker, assump, set(attacker_set)): 		
                     # if there is a deduction required for WCP, 
-                        attackers.append(True)
-                        # put True in the accumulator attackers
+                        attacker_accumulator.append(True)
+                        # put True in attacker_accumulator
                 if minimal_culprits:
-                # if minimal_culprits is not empty
-                    attackers_sets.append(any(attackers))
-                    # put True in the accumulator attackers_sets if attackers contains True
-                    # else put False in the accumulator attackers_sets
+                    attacker_set_accumulator.append(any(attacker_accumulator))
+                    # put True in attacker_set_accumulator if attacker_accumulator contains True
+                    # else put False in attacker_set_accumulator
                     # If True is put, then this was not an instance of WCP;
                     # else, if False is put, then this was an instance of WCP
-            assumps.append(all(attackers_sets))
-            # put True in the accumulator assumps if False is not in attackers_sets, 
+            assumption_accumulator.append(all(attacker_set_accumulator))
+            # put True in assumption_accumulator if False is not in attacker_set_accumulator, 
             # i.e. if there was no instance of WCP for the assumption assump
-            # else put False in the accumulator assumps, 
+            # else put False in assumption_accumulator, 
             # i.e. if there was at least one instance of WCP for the assumption assump
-        return all(assumps)
-        # return True if False is not in assumps, i.e. if no instance of WCP was found
+        return all(assumption_accumulator)
+        # return True if False is not in assumption_accumulator, i.e. if no instance of WCP was found
         # return False if at least one instance of WCP was found
 
         
     def set_of_minimal_elements(self, given_set):
         """
         :return: the set of <-minimal elements of a given set
-        (helper function for the check_WCP bug fix by K. Cyras, 01/03/2017)
         """
-        minimal = set()
-        # initiates minimal to be the empty set
-        for c in given_set:
-                # for every element c of the given set
-                if not self.get_minimally_preferred(c, given_set):
-                        # if there is no element in the given set which is < c
-                        minimal.add(c)
-                        # then c is <-minimal, so add it to the set minimal
-        return minimal
-        # returns the set of <-minimal elements of the given set
+        minimal_elements = set()
+        for element in given_set:
+            if not self.get_minimally_preferred(element, given_set):
+            # if there is no member of the given set which is < element
+                minimal_elements.add(element)
+                # then element is <-minimal, so add it to the set minimal
+        return minimal_elements
 
 
     def check_and_partially_satisfy_WCP(self):

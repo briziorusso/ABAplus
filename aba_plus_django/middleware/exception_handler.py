@@ -4,9 +4,8 @@ __copyright__ = "Copyright (c) 2016 Ziyi Bao"
 
 from abap_parser import *
 from django.shortcuts import render
-from django.utils.deprecation import MiddlewareMixin
 
-class ExceptionMiddleware(MiddlewareMixin):
+class ExceptionMiddleware(object):
     def process_exception(self, request, exception, *args, **kwargs):
         if isinstance(exception, CyclicPreferenceException) or \
            isinstance(exception, NonFlatException) or \
