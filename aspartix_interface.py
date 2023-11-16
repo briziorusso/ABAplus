@@ -19,6 +19,7 @@ ASP solvers, thus enabling the computation of extensions under various semantics
 
 import subprocess
 import re
+import os
 
 from sys import platform as _platform
 if _platform == "win32":
@@ -38,12 +39,14 @@ DLV_ANSWER = "Best model:"
 CLINGO_REGEX = r"in\((\d+)\)"
 DLV_IDEAL_REGEX = r"ideal\((\d+)\)"
 
-ADMISSIBLE_FILE = "adm.dl"
-STABLE_FILE= "stable.dl"
-IDEAL_FILE = "ideal.dl"
-COMPLETE_FILE = "comp.dl"
-PREFERRED_FILE = "prefex_gringo.lp"
-GROUNDED_FILE = "ground.dl"
+EXTENSIONS_FILES_FOLDER = "ABAextensions"
+
+ADMISSIBLE_FILE = os.path.join(EXTENSIONS_FILES_FOLDER, "adm.dl")
+STABLE_FILE= os.path.join(EXTENSIONS_FILES_FOLDER, "stable.dl")
+IDEAL_FILE = os.path.join(EXTENSIONS_FILES_FOLDER, "ideal.dl")
+COMPLETE_FILE = os.path.join(EXTENSIONS_FILES_FOLDER, "comp.dl")
+PREFERRED_FILE = os.path.join(EXTENSIONS_FILES_FOLDER, "prefex_gringo.lp")
+GROUNDED_FILE = os.path.join(EXTENSIONS_FILES_FOLDER, "ground.dl")
 
 
 

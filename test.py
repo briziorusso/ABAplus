@@ -1122,5 +1122,5 @@ class TestASPARTIXInterface(unittest.TestCase):
         self.assertEqual(ideal_ext, {frozenset([b,c])})
 
 
-
+TestABAPlus.test_generate_all_deductions(TestABAPlus())
 

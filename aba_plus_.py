@@ -41,7 +41,8 @@ class ABA_Plus:
         self.rules = rules
 
         if not self.is_flat():
-            raise NonFlatException("The framework is not flat!")
+            # raise NonFlatException("The framework is not flat!")
+            print("The framework is not flat!")
 
         if not self.preferences_only_between_assumptions():
             raise InvalidPreferenceException("Non-assumption in preference detected!")
@@ -431,6 +432,77 @@ class ABA_Plus:
                         attacks.add(Attack(attacker, attackee, REVERSE_ATK))
 
         return (deductions, attacks, all_deductions)
+    
+
+    def generate_attacks_between_asm_sets(self, generate_for):
+        """
+        generate arguments supporting generate_for and all attacks between the arguments
+        :param generate_for:
+        :return: tuple (deductions, attacks, all_deductions)
+                 deductions: dictionary that maps sentences to sets of Deductions that deduce them
+                 attacks: set of all attacks generated
+                 all_deductions: set of all Deductions generated
+        """
+        deductions = {}
+        attacks = set()
+        # maps attackees to attackers in normal attacks
+        atk_map = {}
+        # maps attackees to attackers in reverse attacks
+        reverse_atk_map = {}
+
+        # generate trivial deductions for all assumptions:
+        for assumption in self.assumptions:
+            deductions[assumption] = set()
+            deductions[assumption].add(Deduction({assumption}, {assumption}))
+
+        # generate supporting assumptions
+        for sentence in generate_for:
+            args = self.generate_arguments(sentence)
+            if args:
+                deductions[sentence] = set()
+
+                for arg in args:
+                    arg_deduction = Deduction(arg, {sentence})
+                    deductions[sentence].add(arg_deduction)
+
+                    if sentence.is_contrary and sentence.contrary() in self.assumptions:
+                        trivial_arg = Deduction({sentence.contrary()}, {sentence.contrary()})
+
+                        if self.attack_successful(arg, sentence.contrary()):
+                            attacks.add(Attack(arg_deduction, trivial_arg, NORMAL_ATK))
+
+                            f_arg = frozenset(arg)
+                            if sentence.contrary() not in atk_map:
+                                atk_map[sentence.contrary()] = set()
+                            atk_map[sentence.contrary()].add(f_arg)
+
+                        else:
+                            attacks.add(Attack(trivial_arg, arg_deduction, REVERSE_ATK))
+
+                            f_arg = frozenset(arg)
+                            if f_arg not in reverse_atk_map:
+                                reverse_atk_map[f_arg] = set()
+                            reverse_atk_map[f_arg].add(sentence.contrary())
+
+        all_deductions = ft.reduce(lambda x, y: x.union(y), deductions.values())
+
+        for n_attackee, n_attacker_sets in atk_map.items():
+            attackees = [ded for ded in all_deductions if n_attackee in ded.premise]
+            for n_attacker in n_attacker_sets:
+                attackers = [ded for ded in all_deductions if n_attacker.issubset(ded.premise)]
+                for attackee in attackees:
+                    for attacker in attackers:
+                        attacks.add(Attack(attacker, attackee, NORMAL_ATK))
+
+        for r_attackee, r_attacker_sets in reverse_atk_map.items():
+            attackees = [ded for ded in all_deductions if r_attackee.issubset(ded.premise)]
+            for r_attacker in r_attacker_sets:
+                attackers = [ded for ded in all_deductions if r_attacker in ded.premise]
+                for attackee in attackees:
+                    for attacker in attackers:
+                        attacks.add(Attack(attacker, attackee, REVERSE_ATK))
+
+        return (deductions, attacks, all_deductions)
 
     def generate_arguments_and_attacks_for_contraries(self):
         """
@@ -628,7 +700,7 @@ def print_rule(rule):
     print("consequent:")
     print(rule.consequent)
 
-def print_attack(attack):
+def format_attack(attack):
     str = ""
 
     if attack.type == NORMAL_ATK:
@@ -639,6 +711,34 @@ def print_attack(attack):
     str += format_deduction(attack.attacker)
     str += "   ->   "
     str += format_deduction(attack.attackee)
+
+    return str
+
+def print_attack(attack):
+    str = ""
+
+    if attack.type == NORMAL_ATK:
+        str = "Normal Attack: "
+    elif attack.type == REVERSE_ATK:
+        str = "Reverse Attack: "
+
+    str += format_deduction(attack.attacker)
+    str += "   ----->   "
+    str += format_deduction(attack.attackee)
+
+    print(str)
+
+def print_support(support):
+    str = ""
+
+    if support.type == NORMAL_ATK:
+        str = "Normal Support: "
+    elif support.type == REVERSE_ATK:
+        str = "Reverse Support: "
+
+    str += format_deduction(support.supporter)
+    str += "   - - ->   "
+    str += format_deduction(support.supported)
 
     print(str)
 
@@ -676,7 +776,33 @@ def format_sentence(sentence):
     else:
         return sentence.symbol
 
+def format_deduction_set(set):
+    str = "{"
+
+    it = iter(set)
+    first_ded = next(it, None)
+    if first_ded is not None:
+        str += format_deduction(first_ded)
+    for sentence in it:
+        str += ", "
+        str += format_deduction(sentence)
+
+    str += "}"
+
+    return str
 
 
 
+def format_preference(pref):
+    str = ""
 
+    str += format_sentence(pref.assump1)
+    if pref.relation == LESS_THAN:
+        str += "   <   "
+    elif pref.relation == LESS_EQUAL:
+        str += "   <=   "
+    elif pref.relation == NO_RELATION:
+        str += "   ~   "
+    str += format_sentence(pref.assump2)
+
+    return str
